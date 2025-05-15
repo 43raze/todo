@@ -1,25 +1,27 @@
 <script>
-	export default {
-		props: ['todo'],
+export default {
+  props: ['todo'],
 
-		emits: ['todo-removed'],
-
-		data() {
-			return {
-				isCompleted: false,
-			}
-		},
-	}
+  emits: ['todo-removed', 'todo-edited'],
+}
 </script>
 
 <template>
-	<li :class="{ completed: isCompleted }">
-		<input type="checkbox" class="checkbox" v-model="isCompleted" />
+  <button @click="todo = 'yo'">{{ todo.id }}</button>
+  <li :class="{ completed: todo.isCompleted }">
+    <!-- <input v-model="todo.isCompleted" type="checkbox" class="checkbox" /> -->
 
-		<span class="task-text">{{ todo.caption }}</span>
+    <input
+      :checked="todo.isCompleted"
+      @change="$emit('todo-edited', $event.target.checked)"
+      type="checkbox"
+      class="checkbox"
+    />
 
-		<button class="deleteButton" @click="$emit('todo-removed', todo)">
-			Удалить
-		</button>
-	</li>
+    <span class="task-text">{{ todo.caption }}</span>
+
+    <button class="deleteButton" @click="$emit('todo-removed', todo)">
+      Удалить
+    </button>
+  </li>
 </template>
