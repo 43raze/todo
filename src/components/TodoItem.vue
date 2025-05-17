@@ -3,6 +3,12 @@ export default {
   props: ['todo'],
 
   emits: ['todo-removed', 'todo-edited'],
+
+  data() {
+    return {
+      localTodo: { ...todo },
+    }
+  },
 }
 </script>
 
@@ -20,7 +26,7 @@ export default {
 
     <span class="task-text">{{ todo.caption }}</span>
 
-    <button class="deleteButton" @click="$emit('todo-removed', todo)">
+    <button class="deleteButton" @click="$emit('todo-removed', { ...todo })">
       Удалить
     </button>
   </li>
