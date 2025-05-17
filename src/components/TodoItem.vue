@@ -9,11 +9,11 @@ export default {
 <template>
   <button @click="todo = 'yo'">{{ todo.id }}</button>
   <li :class="{ completed: todo.isCompleted }">
-    <!-- <input v-model="todo.isCompleted" type="checkbox" class="checkbox" /> -->
-
     <input
       :checked="todo.isCompleted"
-      @change="$emit('todo-edited', $event.target.checked)"
+      @change="
+        $emit('todo-edited', { ...todo, isCompleted: $event.target.checked })
+      "
       type="checkbox"
       class="checkbox"
     />

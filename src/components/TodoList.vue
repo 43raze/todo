@@ -10,11 +10,11 @@ export default {
 
   methods: {
     removeTodo(todo) {
-      return this.modelValue.filter(f => f !== todo)
+      return this.modelValue.filter(t => t !== todo)
     },
-    editTodo(todo, isCompleted) {
+    editTodo(updatedTodo) {
       return this.modelValue.map(t =>
-        t === todo ? { ...todo, isCompleted } : t
+        t.id === updatedTodo.id ? updatedTodo : t
       )
     },
   },
@@ -28,7 +28,7 @@ export default {
       :key="todo.id"
       :todo="todo"
       @todo-removed="$emit('update:model-value', removeTodo($event))"
-      @todo-edited="$emit('update:model-value', editTodo(todo, $event))"
+      @todo-edited="$emit('update:model-value', editTodo($event))"
     />
   </ul>
 </template>
