@@ -6,27 +6,33 @@ export default {
 
   data() {
     return {
-      localTodo: { ...todo },
+      localTodo: { ...this.todo },
     }
+  },
+
+  watch: {
+    localTodo(newValue) {
+      this.$emit('todo-edited', { ...newValue })
+    },
   },
 }
 </script>
 
 <template>
-  <button @click="todo = 'yo'">{{ todo.id }}</button>
-  <li :class="{ completed: todo.isCompleted }">
+  <li :class="{ completed: localTodo.isCompleted }">
     <input
-      :checked="todo.isCompleted"
-      @change="
-        $emit('todo-edited', { ...todo, isCompleted: $event.target.checked })
-      "
+      :checked="localTodo.isCompleted"
+      @change="localTodo.isCompleted = $event.target.checked"
       type="checkbox"
       class="checkbox"
     />
 
-    <span class="task-text">{{ todo.caption }}</span>
+    <span class="task-text">{{ localTodo.caption }}</span>
 
-    <button class="deleteButton" @click="$emit('todo-removed', { ...todo })">
+    <button
+      class="deleteButton"
+      @click="$emit('todo-removed', { ...localTodo })"
+    >
       Удалить
     </button>
   </li>
