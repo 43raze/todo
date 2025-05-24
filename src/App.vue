@@ -2,7 +2,7 @@
 import TodoSubmiter from './components/TodoSubmiter.vue'
 import TodoList from './components/TodoList.vue'
 
-export default {
+const options = {
   components: {
     TodoSubmiter,
     TodoList,
@@ -20,16 +20,25 @@ export default {
   },
 
   watch: {
-    i(newValue) {
-      console.log('yo')
+    i: {
+      deep: true,
+      handler(newValue, oldValue) {
+        console.log(newValue === oldValue)
+        console.log('yo', newValue.x, oldValue.x)
+      },
     },
   },
 }
+
+export default options
 </script>
 
 <template>
   <!-- джаваскриптовое выражение -->
-  <button @click="i.x += 1">YO BUTTON</button>
+
+  <button @click="i.x += 1">MUTATE</button>
+
+  <button @click="i = { ...i, x: i.x + 1 }">OVERRIDE</button>
 
   {{ i }}
 
