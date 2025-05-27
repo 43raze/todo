@@ -7,18 +7,33 @@ export default {
   data() {
     return {
       localTodo: { ...this.todo },
+      i: 0,
     }
   },
 
   watch: {
-    localTodo(newValue) {
-      this.$emit('todo-edited', { ...newValue })
+    todo: {
+      deep: true,
+      handler(newValue) {
+        console.log(this.i++)
+        this.localTodo = { ...newValue }
+      },
+    },
+
+    localTodo: {
+      deep: true,
+      handler(newValue, oldValue) {
+        if (newValue !== oldValue) return
+        console.log(newValue)
+        this.$emit('todo-edited', { ...newValue })
+      },
     },
   },
 }
 </script>
 
 <template>
+  {{ todo }}
   <li :class="{ completed: localTodo.isCompleted }">
     <input
       :checked="localTodo.isCompleted"

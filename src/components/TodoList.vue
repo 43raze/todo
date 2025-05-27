@@ -10,7 +10,9 @@ export default {
 
   methods: {
     removeTodo(todo) {
-      return this.modelValue.filter(t => t !== todo)
+      const r = this.modelValue.filter(t => t !== todo)
+      console.log(r)
+      return r
     },
     editTodo(updatedTodo) {
       return this.modelValue.map(t =>
@@ -22,13 +24,18 @@ export default {
 </script>
 
 <template>
+  {{ modelValue }}
   <ul id="taskList">
     <TodoItem
       v-for="todo of modelValue"
       :key="todo.id"
       :todo="todo"
-      @todo-removed="$emit('update:model-value', removeTodo($event))"
-      @todo-edited="$emit('update:model-value', editTodo($event))"
+      @todo-removed="
+        console.log($event), $emit('update:model-value', removeTodo($event))
+      "
+      @todo-edited="
+        console.log($event), $emit('update:model-value', editTodo($event))
+      "
     />
   </ul>
 </template>
