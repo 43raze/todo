@@ -3,10 +3,7 @@ import TodoSubmiter from './components/TodoSubmiter.vue'
 import TodoList from './components/TodoList.vue'
 
 const options = {
-  components: {
-    TodoSubmiter,
-    TodoList,
-  },
+  components: { TodoSubmiter, TodoList },
 
   data() {
     return {
@@ -23,8 +20,8 @@ const options = {
     i: {
       deep: true,
       handler(newValue, oldValue) {
-        console.log(newValue === oldValue)
-        console.log('yo', newValue.x, oldValue.x)
+        if (newValue !== oldValue) return
+        console.log('yo')
       },
     },
   },
@@ -50,11 +47,11 @@ export default options
     <TodoList v-model="todos" />
 
     <br />
-    <!-- 
-    <TodoList v-model="todos" />
 
     <TodoList v-model="todos" />
 
-    <TodoList v-model="todos" /> -->
+    <TodoList v-model="todos" />
+
+    <TodoList v-model="todos" />
   </main>
 </template>
