@@ -1,35 +1,37 @@
 <script>
-	export default {
-		emits: ['todo-submit'],
+const randId = () => Math.trunc(Math.random() * 0xffffffff).toString(16)
+const initTodo = () => ({
+  id: randId(),
+  caption: '',
+})
 
-		data() {
-			return {
-				todo: { id: 3, caption: '' },
-			}
-		},
+export default {
+  emits: ['todo-submit'],
 
-		methods: {
-			addTodo() {
-				this.todo.caption = this.todo.caption.trim()
-				if (this.todo.caption) {
-					this.$emit('todo-submit', {
-						id: this.todo.id,
-						caption: this.todo.caption,
-					})
-					this.todo.caption = ''
-					this.todo.id += 1
-				}
-			},
-		},
-	}
+  data() {
+    return {
+      todo: initTodo(),
+    }
+  },
+
+  methods: {
+    addTodo() {
+      if (this.todo.caption) {
+        this.$emit('todo-submit', { ...this.todo })
+        this.todo = initTodo()
+      }
+      this.$refs.todoInput.focus()
+    },
+  },
+}
 </script>
 
 <template>
-	<input
-		v-model="todo.caption"
-		id="taskInput"
-		placeholder="Введите задачу"
-		ref="todoInput"
-	/>
-	<button id="addTaskButton" @click="addTodo">Добавить задачу</button>
+  <input
+    v-model.trim="todo.caption"
+    placeholder="Введите задачу"
+    ref="todoInput"
+    @keypress.enter="addTodo"
+  />
+  <button @click="addTodo">Добавить задачу</button>
 </template>

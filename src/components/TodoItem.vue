@@ -33,7 +33,6 @@ export default {
 </script>
 
 <template>
-  {{ todo }}
   <li :class="{ completed: localTodo.isCompleted }">
     <input
       :checked="localTodo.isCompleted"
